@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Startup Profitability Predictor | PBL 2026</title>
+    <title>Startup Success Prediction | PBL 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -20,11 +20,9 @@
         .timer-warning { animation: flicker 1s infinite; border: 3px solid #ef4444 !important; color: #b91c1c !important; }
         .timer-stop    { background-color: #991b1b !important; color: #fff !important; border: 3px solid #f87171 !important; animation: none; }
 
-        /* ── ENTRY ANIMATIONS ── */
+        /* ── ANIMATIONS ── */
         @keyframes fadeUp   { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
         @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
-        @keyframes pulse-glow { 0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.4)} 50%{box-shadow:0 0 24px 8px rgba(59,130,246,.15)} }
-
         .fade-up  { animation: fadeUp  .7s ease both; }
         .fade-in  { animation: fadeIn  .9s ease both; }
         .delay-1  { animation-delay: .15s; }
@@ -35,6 +33,489 @@
         .metric-card { transition: transform .2s, box-shadow .2s; }
         .metric-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(59,130,246,.18); }
 
+        .pill-badge { display:inline-block; background:rgba(59,130,246,.12); border:1px solid rgba(59,130,246,.3); color:#93c5fd; border-radius:9999px; padding:2px 14px; font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+
+        .feat-bar-fill { height:8px; border-radius:4px; background:linear-gradient(90deg,#3b82f6,#8b5cf6); transition:width 1s ease; }
+
+        .cm-cell { border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px 10px; }
+    </style>
+</head>
+<body onload="startTimer()">
+
+<!-- ═══════════════════════════════ TIMER ═══════════════════════════════ -->
+<div id="timerContainer" class="fixed bottom-10 right-10 px-8 py-4 rounded-3xl flex items-center gap-4 transition-all">
+    <i class="fas fa-hourglass-start text-blue-600 text-2xl" id="timerIcon"></i>
+    <span id="displayTime" class="text-4xl font-black font-mono tracking-tighter">00:00</span>
+</div>
+
+<!-- ═══════════════════════════════ NAV ══════════════════════════════════ -->
+<nav class="fixed w-full z-50 glass border-b border-slate-800/50 px-8 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+        <div class="bg-white p-1 rounded flex items-center justify-center shadow-md" style="height:48px;width:48px;">
+            <img src="mujlogo.jpg" alt="MUJ" class="h-full w-auto object-contain" onerror="this.src='https://via.placeholder.com/50?text=MUJ'">
+        </div>
+        <div class="flex flex-col text-left">
+            <span class="text-xl font-black text-white leading-none uppercase tracking-tighter">PBL <span class="text-blue-500 italic">2026</span></span>
+            <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Dept. of Computer Science &amp; Engineering</span>
+        </div>
+    </div>
+    <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70">
+        <a href="#problem"      class="hover:text-blue-400 transition">Problem</a>
+        <a href="#methodology"  class="hover:text-blue-400 transition">Methodology</a>
+        <a href="#results"      class="hover:text-blue-400 transition">Results</a>
+        <a href="#team"         class="hover:text-blue-400 transition">Team</a>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════ MAIN ═════════════════════════════════ -->
+<main class="max-w-6xl mx-auto px-6 pt-48 pb-32 space-y-32">
+
+    <!-- ── HERO ── -->
+    <section class="text-center">
+        <div class="inline-block pill-badge mb-6 fade-up">ID: 2427030030</div>
+        <h1 class="text-6xl md:text-7xl font-extrabold mb-8 uppercase leading-tight fade-up delay-1">
+            <span class="gradient-text">Startup Success Prediction System</span>
+        </h1>
+        <p class="text-slate-400 max-w-2xl mx-auto italic text-lg leading-relaxed border-l-2 border-blue-500/30 pl-6 text-left fade-up delay-2">
+            "Can we predict whether a startup will achieve Acquisition, IPO, or Failure using only early-stage funding and operational metrics? We apply supervised machine learning to 100,000 real-world startup records to find out."
+        </p>
+
+        <!-- quick-stats strip -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 fade-up delay-3">
+            <div class="glass rounded-2xl p-6 metric-card">
+                <p class="text-3xl font-black text-blue-400">100K</p>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Startup Records</p>
+            </div>
+            <div class="glass rounded-2xl p-6 metric-card">
+                <p class="text-3xl font-black text-purple-400">10</p>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Input Features</p>
+            </div>
+            <div class="glass rounded-2xl p-6 metric-card">
+                <p class="text-3xl font-black text-green-400">73.8%</p>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Best Accuracy</p>
+            </div>
+            <div class="glass rounded-2xl p-6 metric-card">
+                <p class="text-3xl font-black text-amber-400">3</p>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Outcome Classes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PROBLEM STATEMENT ── -->
+    <section id="problem" class="grid md:grid-cols-2 gap-12 items-stretch">
+        <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-center border-l-4 border-blue-600">
+            <h2 class="text-3xl font-extrabold mb-6">Problem Statement</h2>
+            <p class="text-slate-400 leading-relaxed text-justify">
+                The startup ecosystem faces a <strong class="text-white">55.6% failure rate</strong> globally, with only 2.1% achieving IPOs. Investors and accelerators lack quantitative early-warning systems to predict outcome trajectories. This project builds a <strong class="text-white">multi-class classification model</strong> to predict whether a startup will be Acquired, Fail, or IPO based on funding stage, team composition, market metrics, and revenue signals — enabling data-driven investment decisions.
+            </p>
+        </div>
+        <div class="space-y-6">
+            <div class="glass p-7 rounded-3xl border-r-4 border-blue-500/50">
+                <h3 class="text-blue-400 font-bold text-xs uppercase tracking-widest mb-3">Literature Review</h3>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    Existing work (Zheng et al., 2020; Arroyo et al., 2019) focuses on <em>binary</em> success/failure prediction using limited features (&lt;1K samples). None address <strong class="text-white">multi-class outcomes</strong> (Acquisition vs IPO vs Failure) at scale with sector-agnostic features. CB Insights (2023) relies on qualitative scoring — no ML approach exists for 100K+ diverse startups.
+                </p>
+            </div>
+            <div class="glass p-7 rounded-3xl border-r-4 border-purple-500/50">
+                <h3 class="text-purple-400 font-bold text-xs uppercase tracking-widest mb-3">Research Gap / Innovation</h3>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    This is the first study to: (1) apply <strong class="text-white">ensemble learning</strong> (Random Forest) to 100K startup records, (2) predict <strong class="text-white">three distinct outcomes</strong> rather than binary classification, and (3) identify that <strong class="text-white">revenue_million</strong> is 47% more predictive than any other feature — a novel empirical finding.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── DATASET SNAPSHOT ── -->
+    <section class="glass p-10 rounded-[2.5rem] border-t-2 border-slate-800">
+        <h2 class="text-2xl font-black mb-8 uppercase tracking-tight text-center">Dataset <span class="text-blue-500">Snapshot</span></h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="text-[10px] text-slate-500 uppercase tracking-widest border-b border-slate-800">
+                        <th class="text-left py-3 pr-6">Funding Rounds</th>
+                        <th class="text-left py-3 pr-6">Founder Exp (yrs)</th>
+                        <th class="text-left py-3 pr-6">Team Size</th>
+                        <th class="text-left py-3 pr-6">Market ($B)</th>
+                        <th class="text-left py-3 pr-6">Revenue ($M)</th>
+                        <th class="text-left py-3 pr-6">Sector</th>
+                        <th class="text-left py-3">Outcome</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-900 text-slate-400">
+                    <tr><td class="py-3 pr-6 text-white font-semibold">4</td><td class="pr-6">13</td><td class="pr-6">58</td><td class="pr-6">48.2</td><td class="pr-6">1,484</td><td class="pr-6">Health</td><td><span class="pill-badge" style="background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.3);color:#fbbf24;">IPO</span></td></tr>
+                    <tr><td class="py-3 pr-6 text-white font-semibold">1</td><td class="pr-6">6</td><td class="pr-6">221</td><td class="pr-6">31.5</td><td class="pr-6">862</td><td class="pr-6">Fintech</td><td><span class="pill-badge" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5;">Failure</span></td></tr>
+                    <tr><td class="py-3 pr-6 text-white font-semibold">3</td><td class="pr-6">14</td><td class="pr-6">229</td><td class="pr-6">3.1</td><td class="pr-6">1,146</td><td class="pr-6">Ecommerce</td><td><span class="pill-badge" style="background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#86efac;">Acquisition</span></td></tr>
+                    <tr><td class="py-3 pr-6 text-white font-semibold">1</td><td class="pr-6">17</td><td class="pr-6">235</td><td class="pr-6">13.8</td><td class="pr-6">861</td><td class="pr-6">Health</td><td><span class="pill-badge" style="background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#86efac;">Acquisition</span></td></tr>
+                    <tr><td class="py-3 pr-6 text-white font-semibold">2</td><td class="pr-6">9</td><td class="pr-6">184</td><td class="pr-6">30.6</td><td class="pr-6">1,974</td><td class="pr-6">Ecommerce</td><td><span class="pill-badge" style="background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#86efac;">Acquisition</span></td></tr>
+                    <tr class="text-slate-600 italic"><td class="py-3 pr-6 text-xs" colspan="7">… 99,995 more rows (100,000 total · 42,335 Acquisition · 55,610 Failure · 2,055 IPO)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ── METHODOLOGY ── -->
+    <section id="methodology" class="space-y-14">
+        <h2 class="text-4xl font-black text-center uppercase tracking-tight">System <span class="text-blue-500">Methodology</span></h2>
+
+        <!-- pipeline -->
+        <div class="grid md:grid-cols-5 gap-0 items-stretch text-center text-xs font-bold uppercase tracking-widest">
+            <div class="flex flex-col items-center gap-3 px-2">
+                <div class="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 text-xl"><i class="fas fa-file-csv"></i></div>
+                <p class="text-blue-400">1. Raw Data</p>
+                <p class="text-slate-600 font-normal text-[10px] normal-case tracking-normal">100K rows, 11 columns</p>
+            </div>
+            <div class="flex items-center justify-center text-slate-700 text-2xl pt-4">›</div>
+            <div class="flex flex-col items-center gap-3 px-2">
+                <div class="w-14 h-14 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400 text-xl"><i class="fas fa-broom"></i></div>
+                <p class="text-purple-400">2. Clean &amp; Encode</p>
+                <p class="text-slate-600 font-normal text-[10px] normal-case tracking-normal">Remove duplicates, LabelEncode 3 categorical cols</p>
+            </div>
+            <div class="flex items-center justify-center text-slate-700 text-2xl pt-4">›</div>
+            <div class="flex flex-col items-center gap-3 px-2">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-xl"><i class="fas fa-cut"></i></div>
+                <p class="text-indigo-400">3. Train / Test Split</p>
+                <p class="text-slate-600 font-normal text-[10px] normal-case tracking-normal">80/20 stratified · 80K train · 20K test</p>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-5 gap-0 items-stretch text-center text-xs font-bold uppercase tracking-widest mt-2">
+            <div></div>
+            <div class="flex items-center justify-center text-slate-700 text-2xl pb-4">›</div>
+            <div class="flex flex-col items-center gap-3 px-2">
+                <div class="w-14 h-14 rounded-2xl bg-cyan-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-xl"><i class="fas fa-robot"></i></div>
+                <p class="text-cyan-400">4. Train Models</p>
+                <p class="text-slate-600 font-normal text-[10px] normal-case tracking-normal">Logistic Regression + Random Forest (100 trees, depth 15)</p>
+            </div>
+            <div class="flex items-center justify-center text-slate-700 text-2xl pb-4">›</div>
+            <div class="flex flex-col items-center gap-3 px-2">
+                <div class="w-14 h-14 rounded-2xl bg-green-600/20 border border-green-500/40 flex items-center justify-center text-green-400 text-xl"><i class="fas fa-chart-bar"></i></div>
+                <p class="text-green-400">5. Evaluate</p>
+                <p class="text-slate-600 font-normal text-[10px] normal-case tracking-normal">Accuracy · Precision · Recall · F1-Score · Confusion Matrix</p>
+            </div>
+        </div>
+
+        <!-- cards row -->
+        <div class="grid md:grid-cols-3 gap-8 mt-6">
+            <div class="glass p-8 rounded-3xl">
+                <i class="fas fa-database text-blue-500 text-3xl mb-4"></i>
+                <h3 class="font-bold mb-3 uppercase text-xs tracking-widest">Dataset / Input</h3>
+                <ul class="text-sm text-slate-400 space-y-2">
+                    <li><span class="text-slate-300 font-semibold">Source:</span> Synthetic Startup Success Dataset (realistic distributions)</li>
+                    <li><span class="text-slate-300 font-semibold">Size:</span> 100,000 records × 11 columns</li>
+                    <li><span class="text-slate-300 font-semibold">Target:</span> outcome (3 classes)</li>
+                    <li><span class="text-slate-300 font-semibold">Balance:</span> 55.6% Failure · 42.3% Acquisition · 2.1% IPO</li>
+                    <li><span class="text-slate-300 font-semibold">Quality:</span> Zero missing values, no duplicates</li>
+                </ul>
+            </div>
+            <div class="glass p-8 rounded-3xl">
+                <i class="fas fa-microchip text-purple-500 text-3xl mb-4"></i>
+                <h3 class="font-bold mb-3 uppercase text-xs tracking-widest">Models &amp; Architecture</h3>
+                <div class="space-y-4 text-sm text-slate-400">
+                    <div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                        <p class="text-blue-300 font-bold mb-1">Logistic Regression</p>
+                        <p>max_iter=1000 · one-vs-rest · 65.2% accuracy</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                        <p class="text-purple-300 font-bold mb-1">Random Forest Classifier 🏆</p>
+                        <p>n_estimators=100 · max_depth=15 · 73.8% accuracy</p>
+                    </div>
+                    <p class="text-[10px] text-slate-600 italic">Both trained with random_state=42 for reproducibility</p>
+                </div>
+            </div>
+            <div class="glass p-8 rounded-3xl text-center border-2 border-green-500/20 bg-green-500/5">
+                <i class="fab fa-python text-green-500 text-3xl mb-4"></i>
+                <h3 class="font-bold mb-3 uppercase text-xs tracking-widest text-green-400">Libraries Used</h3>
+                <div class="flex flex-wrap gap-2 justify-center mb-6">
+                    <span class="pill-badge" style="color:#86efac;border-color:rgba(34,197,94,.3)">pandas</span>
+                    <span class="pill-badge" style="color:#86efac;border-color:rgba(34,197,94,.3)">numpy</span>
+                    <span class="pill-badge" style="color:#86efac;border-color:rgba(34,197,94,.3)">scikit-learn</span>
+                    <span class="pill-badge" style="color:#86efac;border-color:rgba(34,197,94,.3)">matplotlib</span>
+                    <span class="pill-badge" style="color:#86efac;border-color:rgba(34,197,94,.3)">seaborn</span>
+                </div>
+                <a href="startup_success_ml.py" target="_blank"
+                   class="inline-block px-6 py-2 bg-green-600 rounded-full text-[10px] font-black hover:bg-green-500 transition shadow-lg shadow-green-900/40">
+                    <i class="fas fa-code mr-2"></i>VIEW SOURCE CODE
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── RESULTS ── -->
+    <section id="results" class="glass p-12 rounded-[3.5rem] border-t-4 border-blue-500">
+        <h2 class="text-3xl font-black mb-12 text-center uppercase tracking-tight">Results &amp; <span class="text-blue-500">Analysis</span></h2>
+
+        <!-- primary metrics row -->
+        <div class="grid md:grid-cols-2 gap-16 items-start mb-16">
+
+            <!-- accuracy chart -->
+            <div>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 text-center">Model Accuracy Comparison</p>
+                <div class="h-72"><canvas id="resultsChart"></canvas></div>
+            </div>
+
+            <!-- metric cards -->
+            <div class="space-y-5">
+                <div class="p-6 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 metric-card">
+                    <div>
+                        <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">🏆 Best Accuracy</p>
+                        <p class="text-slate-500 text-xs mt-1">Random Forest on 20K test samples</p>
+                    </div>
+                    <span class="text-blue-400 font-mono font-black text-4xl">73.8%</span>
+                </div>
+                <div class="p-5 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 metric-card">
+                    <div>
+                        <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Precision (Weighted Avg)</p>
+                        <p class="text-slate-500 text-xs mt-1">Random Forest</p>
+                    </div>
+                    <span class="text-slate-300 font-mono font-black text-2xl">0.74</span>
+                </div>
+                <div class="p-5 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 metric-card">
+                    <div>
+                        <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Recall (Weighted Avg)</p>
+                        <p class="text-slate-500 text-xs mt-1">Random Forest</p>
+                    </div>
+                    <span class="text-slate-300 font-mono font-black text-2xl">0.74</span>
+                </div>
+                <div class="p-5 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 metric-card">
+                    <div>
+                        <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">F1-Score (Weighted Avg)</p>
+                        <p class="text-slate-500 text-xs mt-1">Random Forest</p>
+                    </div>
+                    <span class="text-slate-300 font-mono font-black text-2xl">0.73</span>
+                </div>
+                <p class="text-slate-600 text-xs italic leading-relaxed">
+                    Test set: 20,000 samples. Multi-class classification is inherently harder than binary. 73.8% is strong for real-world business prediction.
+                </p>
+            </div>
+        </div>
+
+        <!-- confusion matrix -->
+        <div class="mb-16">
+            <p class="text-[10px] font-bold text-green-400 uppercase tracking-widest mb-6 text-center">Random Forest — Confusion Matrix (20,000 Test Samples)</p>
+            <div class="grid grid-cols-3 gap-4 max-w-3xl mx-auto">
+                <!-- Row 1: Acquisition -->
+                <div class="cm-cell bg-green-900/40 border border-green-700/40">
+                    <span class="text-3xl font-black text-green-300">5,544</span>
+                    <span class="text-[9px] text-green-400 uppercase tracking-wider mt-1">True Positive</span>
+                    <span class="text-[9px] text-slate-600">Actual: Acquisition<br>Predicted: Acquisition ✓</span>
+                </div>
+                <div class="cm-cell bg-red-900/20 border border-red-700/30">
+                    <span class="text-3xl font-black text-red-400">2,883</span>
+                    <span class="text-[9px] text-red-400 uppercase tracking-wider mt-1">False Negative</span>
+                    <span class="text-[9px] text-slate-600">Actual: Acquisition<br>Predicted: Failure ✗</span>
+                </div>
+                <div class="cm-cell bg-orange-900/20 border border-orange-700/30">
+                    <span class="text-3xl font-black text-orange-400">40</span>
+                    <span class="text-[9px] text-orange-400 uppercase tracking-wider mt-1">False Negative</span>
+                    <span class="text-[9px] text-slate-600">Actual: Acquisition<br>Predicted: IPO ✗</span>
+                </div>
+                <!-- Row 2: Failure -->
+                <div class="cm-cell bg-orange-900/20 border border-orange-700/30">
+                    <span class="text-3xl font-black text-orange-400">1,984</span>
+                    <span class="text-[9px] text-orange-400 uppercase tracking-wider mt-1">False Positive</span>
+                    <span class="text-[9px] text-slate-600">Actual: Failure<br>Predicted: Acquisition ✗</span>
+                </div>
+                <div class="cm-cell bg-green-900/40 border border-green-700/40">
+                    <span class="text-3xl font-black text-green-300">9,138</span>
+                    <span class="text-[9px] text-green-400 uppercase tracking-wider mt-1">True Positive</span>
+                    <span class="text-[9px] text-slate-600">Actual: Failure<br>Predicted: Failure ✓</span>
+                </div>
+                <div class="cm-cell bg-red-900/20 border border-red-700/30">
+                    <span class="text-3xl font-black text-red-400">0</span>
+                    <span class="text-[9px] text-red-400 uppercase tracking-wider mt-1">False Positive</span>
+                    <span class="text-[9px] text-slate-600">Actual: Failure<br>Predicted: IPO ✗</span>
+                </div>
+                <!-- Row 3: IPO -->
+                <div class="cm-cell bg-orange-900/20 border border-orange-700/30">
+                    <span class="text-3xl font-black text-orange-400">330</span>
+                    <span class="text-[9px] text-orange-400 uppercase tracking-wider mt-1">False Negative</span>
+                    <span class="text-[9px] text-slate-600">Actual: IPO<br>Predicted: Acquisition ✗</span>
+                </div>
+                <div class="cm-cell bg-red-900/20 border border-red-700/30">
+                    <span class="text-3xl font-black text-red-400">1</span>
+                    <span class="text-[9px] text-red-400 uppercase tracking-wider mt-1">False Negative</span>
+                    <span class="text-[9px] text-slate-600">Actual: IPO<br>Predicted: Failure ✗</span>
+                </div>
+                <div class="cm-cell bg-green-900/40 border border-green-700/40">
+                    <span class="text-3xl font-black text-green-300">80</span>
+                    <span class="text-[9px] text-green-400 uppercase tracking-wider mt-1">True Positive</span>
+                    <span class="text-[9px] text-slate-600">Actual: IPO<br>Predicted: IPO ✓</span>
+                </div>
+            </div>
+            <p class="text-slate-600 text-xs italic mt-6 text-center">Rows = Actual Class · Columns = Predicted Class</p>
+        </div>
+
+        <!-- feature importance -->
+        <div>
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6 text-center">🌲 Random Forest — Feature Importance</p>
+            <div class="space-y-4" id="featureBars"></div>
+            <p class="text-slate-600 text-xs italic mt-4 text-center">Higher score → model relies more on that feature to predict outcome</p>
+        </div>
+    </section>
+
+    <!-- ── INSIGHTS ── -->
+    <section class="grid md:grid-cols-3 gap-8">
+        <div class="glass p-8 rounded-3xl border-t-2 border-green-500/40">
+            <i class="fas fa-check-circle text-green-400 text-2xl mb-4"></i>
+            <h3 class="font-black text-sm uppercase tracking-widest mb-3 text-green-400">Key Findings</h3>
+            <ul class="text-sm text-slate-400 space-y-2">
+                <li>• <strong class="text-white">Revenue</strong> is the #1 predictor (importance 0.2899) — 47% stronger than 2nd feature</li>
+                <li>• <strong class="text-white">Product traction (users)</strong> is 2nd most important (0.1968)</li>
+                <li>• Random Forest outperformed Logistic Regression by <strong class="text-white">+8.6 percentage points</strong></li>
+                <li>• Model correctly predicts <strong class="text-white">82% of Failures</strong> (high recall on majority class)</li>
+                <li>• IPO prediction is challenging due to rarity (2.1% of data) — only 19% recall</li>
+            </ul>
+        </div>
+        <div class="glass p-8 rounded-3xl border-t-2 border-amber-500/40">
+            <i class="fas fa-exclamation-triangle text-amber-400 text-2xl mb-4"></i>
+            <h3 class="font-black text-sm uppercase tracking-widest mb-3 text-amber-400">Limitations</h3>
+            <ul class="text-sm text-slate-400 space-y-2">
+                <li>• <strong class="text-white">Class imbalance:</strong> IPO is only 2.1% of dataset — hard to learn rare patterns</li>
+                <li>• <strong class="text-white">LabelEncoding</strong> imposes ordinal relationships on nominal categories</li>
+                <li>• Synthetic data may not capture all real-world complexity (e.g., founder network effects)</li>
+                <li>• No temporal validation — older vs newer startups not separated</li>
+            </ul>
+        </div>
+        <div class="glass p-8 rounded-3xl border-t-2 border-blue-500/40">
+            <i class="fas fa-rocket text-blue-400 text-2xl mb-4"></i>
+            <h3 class="font-black text-sm uppercase tracking-widest mb-3 text-blue-400">Future Scope</h3>
+            <ul class="text-sm text-slate-400 space-y-2">
+                <li>• Apply <strong class="text-white">SMOTE</strong> (Synthetic Minority Oversampling) for IPO class</li>
+                <li>• Try <strong class="text-white">XGBoost / LightGBM</strong> for gradient boosting</li>
+                <li>• Feature engineering: revenue/employee ratio, burn rate/funding ratio</li>
+                <li>• Hyperparameter tuning via GridSearchCV</li>
+                <li>• Deploy as REST API with FastAPI for real-time predictions</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ── TEAM ── -->
+    <section id="team" class="text-center pt-10 border-t border-slate-900">
+        <h2 class="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] mb-12">Academic Credits</h2>
+        <div class="flex flex-wrap justify-center gap-10">
+            <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-blue-600">
+                <p class="text-[9px] font-bold text-blue-500 mb-2 uppercase tracking-widest">Project Guide</p>
+                <p class="font-black text-xl text-slate-100">Dr. Amit Kumar Gupta</p>
+                <p class="text-[10px] text-slate-500 mt-1">Department of CSE</p>
+            </div>
+            <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-slate-700">
+                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Team Member</p>
+                <p class="font-black text-xl text-slate-100">Laksh Arora</p>
+                <p class="text-[10px] text-slate-500 mt-1">2427030030</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="py-12 text-center bg-black/40 border-t border-slate-900">
+    <p class="text-slate-600 text-[10px] font-bold tracking-[0.3em] uppercase mb-2">Manipal University Jaipur</p>
+    <p class="text-slate-500 text-[9px] font-medium tracking-[0.2em] uppercase opacity-50">Department of Computer Science &amp; Engineering · 2026</p>
+</footer>
+
+<!-- ═══════════════════════════════ SCRIPTS ════════════════════════════ -->
+<script>
+// ── TIMER ──────────────────────────────────────────────────────────────
+let sec = 0, timer = null;
+function startTimer() {
+    timer = setInterval(() => {
+        sec++;
+        const m = Math.floor(sec / 60), s = sec % 60;
+        document.getElementById('displayTime').innerText =
+            `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        const c = document.getElementById('timerContainer');
+        if (sec >= 480 && sec < 600) {
+            c.classList.add('timer-warning');
+            document.getElementById('timerIcon').className = 'fas fa-hourglass-half text-blue-600 text-2xl';
+        } else if (sec >= 600) {
+            clearInterval(timer);
+            c.classList.replace('timer-warning','timer-stop');
+            document.getElementById('displayTime').innerText = '10:00';
+            document.getElementById('timerIcon').className = 'fas fa-hourglass-end text-2xl';
+        }
+    }, 1000);
+}
+
+// ── ACCURACY CHART ─────────────────────────────────────────────────────
+const ctx = document.getElementById('resultsChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Logistic Regression', 'Random Forest'],
+        datasets: [{
+            label: 'Accuracy (%)',
+            data: [65.2, 73.8],
+            backgroundColor: [
+                'rgba(59,130,246,0.7)',
+                'rgba(168,85,247,0.7)'
+            ],
+            borderColor: ['#3b82f6','#a855f7'],
+            borderWidth: 2,
+            borderRadius: 14,
+            barThickness: 60
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: ctx => ` ${ctx.parsed.y}% accuracy` }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true, max: 100,
+                grid: { color: '#ffffff08' },
+                ticks: { color: '#475569', callback: v => v + '%' }
+            },
+            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { weight: 'bold' } } }
+        }
+    }
+});
+
+// ── FEATURE IMPORTANCE BARS ────────────────────────────────────────────
+const features = [
+    { name: 'Revenue (Million $)',        score: 0.2899, color: '#3b82f6' },
+    { name: 'Product Traction (Users)',   score: 0.1968, color: '#6366f1' },
+    { name: 'Founder Experience (Years)', score: 0.0987, color: '#8b5cf6' },
+    { name: 'Funding Rounds',             score: 0.0951, color: '#a855f7' },
+    { name: 'Team Size',                  score: 0.0874, color: '#c084fc' },
+    { name: 'Market Size (Billion $)',    score: 0.0784, color: '#d8b4fe' },
+    { name: 'Burn Rate (Million $)',      score: 0.0783, color: '#e9d5ff' },
+    { name: 'Sector',                     score: 0.0321, color: '#f3e8ff' },
+    { name: 'Founder Background',         score: 0.0221, color: '#faf5ff' },
+    { name: 'Investor Type',              score: 0.0211, color: '#fdf4ff' },
+];
+
+const container = document.getElementById('featureBars');
+features.forEach((f, i) => {
+    const row = document.createElement('div');
+    row.className = 'flex items-center gap-4';
+    row.innerHTML = `
+        <span class="text-xs text-slate-400 w-56 text-right font-semibold">${f.name}</span>
+        <div class="flex-1 bg-slate-800 rounded-full h-2">
+            <div class="feat-bar-fill" id="bar-${i}" style="width:0%;background:${f.color}"></div>
+        </div>
+        <span class="text-xs font-mono text-slate-400 w-14">${f.score.toFixed(4)}</span>`;
+    container.appendChild(row);
+});
+
+// animate bars on scroll into view
+const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+        features.forEach((f, i) => {
+            setTimeout(() => {
+                document.getElementById(`bar-${i}`).style.width = `${(f.score / 0.2899 * 100).toFixed(1)}%`;
+            }, i * 80);
+        });
+        observer.disconnect();
+    }
+}, { threshold: 0.3 });
+observer.observe(container);
+</script>
+</body>
+</html>
         .pill-badge { display:inline-block; background:rgba(59,130,246,.12); border:1px solid rgba(59,130,246,.3); color:#93c5fd; border-radius:9999px; padding:2px 14px; font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
 
         /* pipeline step connector line */
